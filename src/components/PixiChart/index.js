@@ -59,8 +59,6 @@ const PixiChart = ({
   const { data } = useData();
   const { xScale, yScale, colorScale } = useScales();
 
-  console.log("pixi isDataShown", isDataShown);
-
   return (
     <Stage
       style={{

@@ -8,12 +8,15 @@ import { useDimensions } from "../../hooks/useDimensions";
 import { useScales } from "../../hooks/useScales";
 import { NODE_RADIUS } from "../../constants";
 
-const SVGChart = ({ isDataShown, onPointMouseover, onPointMouseout }) => {
+const SVGChart = ({
+  isDataShown,
+  onPointMouseover,
+  onPointMouseout,
+  isAnimated,
+}) => {
   const { width, height, margin } = useDimensions();
   const { data, setData } = useData();
   const { xScale, yScale, colorScale } = useScales();
-
-  console.log("svg isDataShown", isDataShown);
 
   const viewportRef = useRef(null);
   const titleRef = useRef(null);
@@ -76,7 +79,9 @@ const SVGChart = ({ isDataShown, onPointMouseover, onPointMouseout }) => {
         .join("circle")
         .attr("class", "circle")
         .attr("cx", (d) => xScale(new Date(d.date)))
-        .attr("cy", (d) => yScale(0))
+        .attr("cy", (d) =>
+          isAnimated ? yScale(0) : yScale(d.total_fight_minutes)
+        )
         .attr("r", NODE_RADIUS)
         .style("fill", (d) => colorScale(d.win_by))
         .on("mouseover", (e, d) => {

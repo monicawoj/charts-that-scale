@@ -27,15 +27,16 @@ const ChartContainer = () => {
     <ScalesProvider data={data} width={width} height={height} margin={margin}>
       <div style={{ position: "absolute", zIndex: 1 }}>
         <PixiChart
-          isDataShown={true}
+          isDataShown={Boolean(data.length >= 500)}
+          onPointMouseover={handlePointMouseover}
+          onPointMouseout={handlePointMouseout}
+          // isAnimated={true}
+        />
+        <SVGChart
+          isDataShown={Boolean(data.length < 1000)}
           onPointMouseover={handlePointMouseover}
           onPointMouseout={handlePointMouseout}
           isAnimated={true}
-        />
-        <SVGChart
-          isDataShown={false}
-          onPointMouseover={handlePointMouseover}
-          onPointMouseout={handlePointMouseout}
         />
       </div>
       <Tooltip position={tooltipData.position} data={tooltipData.data} />
