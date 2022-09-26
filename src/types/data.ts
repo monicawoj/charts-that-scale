@@ -10,14 +10,27 @@ export type WinBy =
   | "Overturned"
   | "Other";
 
+export type FightType =
+  | "Strawweight"
+  | "Flyweight"
+  | "Bantamweight"
+  | "Featherweight"
+  | "Lightweight"
+  | "Welterweight"
+  | "Middleweight"
+  | "Light Heavyweight"
+  | "Heavyweight"
+  | "Other";
 export interface FightStats {
   win_by: WinBy;
-  date: Date;
+  date: string;
   last_round: number;
-  last_round_time: number;
-  total_fight_minutes: number; // custom calculation
+  last_round_time: string;
   location: string;
   R_fighter: string;
   B_fighter: string;
   Winner: string;
+  Fight_type: string;
+  total_fight_minutes?: number; // custom calculation
+  cleaned_fight_type?: string; // custom calculation
 }

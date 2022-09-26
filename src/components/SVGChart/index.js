@@ -6,22 +6,22 @@ import { axisLeft, axisBottom } from "d3-axis";
 import { useData } from "../../hooks/useData";
 import { useDimensions } from "../../hooks/useDimensions";
 import { useScales } from "../../hooks/useScales";
+import { legendColor, legendSize } from "d3-svg-legend";
+import { format } from "d3-format";
 import { NODE_RADIUS } from "../../constants";
+import { useTooltipData } from "../../hooks/useTooltipData";
+// import { NODE_RADIUS } from "../../constants";
 
-const SVGChart = ({
-  isDataShown,
-  onPointMouseover,
-  onPointMouseout,
-  isAnimated,
-}) => {
+const SVGChart = ({ isDataShown, isAnimated }) => {
   const { width, height, margin } = useDimensions();
   const { data, setData } = useData();
-  const { xScale, yScale, colorScale } = useScales();
+  const { xScale, yScale, colorScale, nodeRadiusScale } = useScales();
+  const { setTooltipData } = useTooltipData();
 
   const viewportRef = useRef(null);
-  const titleRef = useRef(null);
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
+  const legendRef = useRef(null);
 
   useEffect(() => {
     if (xAxisRef.current) {
@@ -38,16 +38,6 @@ const SVGChart = ({
   }, [yScale, width]);
 
   useEffect(() => {
-    if (titleRef.current) {
-      const text = "UFC Fight Data - what it takes to win";
-      select(titleRef.current)
-        .append("text")
-        .text(text)
-        .attr("text-anchor", "middle");
-    }
-  }, [width]);
-
-  useEffect(() => {
     if (viewportRef.current) {
       const brushed = ({ selection }) => {
         if (selection) {
@@ -56,8 +46,8 @@ const SVGChart = ({
             (d) =>
               x0 <= xScale(new Date(d.date)) &&
               xScale(new Date(d.date)) < x1 &&
-              y0 <= yScale(d.total_fight_minutes) &&
-              yScale(d.total_fight_minutes) < y1
+              y0 <= yScale(d.cleaned_fight_type) &&
+              yScale(d.cleaned_fight_type) < y1
           );
           setData(filteredData);
           select(viewportRef.current).call(brush.clear);
@@ -80,33 +70,62 @@ const SVGChart = ({
         .attr("class", "circle")
         .attr("cx", (d) => xScale(new Date(d.date)))
         .attr("cy", (d) =>
-          isAnimated ? yScale(0) : yScale(d.total_fight_minutes)
+          isAnimated ? yScale(0) : yScale(d.cleaned_fight_type)
         )
-        .attr("r", NODE_RADIUS)
+        .attr("r", (d) => nodeRadiusScale(d.total_fight_minutes))
         .style("fill", (d) => colorScale(d.win_by))
         .on("mouseover", (e, d) => {
           const position = { x: e.clientX, y: e.clientY };
-          onPointMouseover(d, position);
-          select(e.target).attr("r", NODE_RADIUS + 4);
+          setTooltipData({ data: d, position });
+          select(e.target).attr(
+            "r",
+            (d) => nodeRadiusScale(d.total_fight_minutes) + 4
+          );
         })
         .on("mouseout", (e, d) => {
-          onPointMouseout();
-          select(e.target).attr("r", NODE_RADIUS);
+          setTooltipData({ data: null, position: { x: 0, y: 0 } });
+          select(e.target).attr("r", (d) =>
+            nodeRadiusScale(d.total_fight_minutes)
+          );
         })
         .transition()
         .duration(1000)
-        .attr("cy", (d) => yScale(d.total_fight_minutes));
+        .attr("cy", (d) => yScale(d.cleaned_fight_type));
     }
   }, [
     data,
     xScale,
     yScale,
     colorScale,
+    nodeRadiusScale,
     isDataShown,
     width,
-    onPointMouseover,
-    onPointMouseout,
+    isAnimated,
+    setTooltipData,
   ]);
+
+  useEffect(() => {
+    if (legendRef.current) {
+      const colorLegend = legendColor()
+        .title("Win By")
+        .shape("circle")
+        .shapeRadius(NODE_RADIUS)
+        .shapePadding(10)
+        .scale(colorScale);
+
+      const sizeLegend = legendSize()
+        .title("Total Fight Time (minutes)")
+        .scale(nodeRadiusScale)
+        .shape("circle")
+        .shapePadding(30)
+        .labelOffset(30)
+        .labelFormat(format(".0f"))
+        .orient("horizontal");
+
+      select(legendRef.current).select(".colorLegend").call(colorLegend);
+      select(legendRef.current).select(".sizeLegend").call(sizeLegend);
+    }
+  }, [colorScale, nodeRadiusScale]);
 
   return (
     <svg
@@ -120,9 +139,15 @@ const SVGChart = ({
       role="img"
     >
       <g
-        ref={titleRef}
-        transform={`translate(${margin.left + width / 2}, ${margin.top / 2})`}
-      />
+        className="title"
+        transform={`translate(${
+          margin.left + (width - margin.left - margin.right) / 2
+        }, ${margin.top / 2})`}
+      >
+        <text textAnchor="middle" fontSize={24}>
+          UFC Historical Data (1993 - 2021) - What Wins Fights?
+        </text>
+      </g>
       <g
         ref={viewportRef}
         width={width - margin.left - margin.right}
@@ -133,12 +158,21 @@ const SVGChart = ({
       </g>
       <g
         ref={xAxisRef}
+        className="axis"
         transform={`translate(${margin.left}, ${height - margin.bottom})`}
       />
       <g
         ref={yAxisRef}
+        className="axis"
         transform={`translate(${margin.left}, ${margin.top})`}
       />
+      <g
+        ref={legendRef}
+        transform={`translate(${width - margin.right + 10}, ${margin.top})`}
+      >
+        <g className="sizeLegend" />
+        <g className="colorLegend" transform={`translate(0, ${margin.top})`} />
+      </g>
     </svg>
   );
 };

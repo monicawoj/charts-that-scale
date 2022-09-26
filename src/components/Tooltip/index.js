@@ -1,7 +1,12 @@
 import { useState, useMemo } from "react";
 import { usePopper } from "react-popper";
+import { useTooltipData } from "../../hooks/useTooltipData";
 
-const Tooltip = ({ position, data }) => {
+const Tooltip = () => {
+  const {
+    tooltipData: { position, data },
+  } = useTooltipData();
+
   const virtualReference = useMemo(
     () => ({
       getBoundingClientRect() {
@@ -22,14 +27,23 @@ const Tooltip = ({ position, data }) => {
 
   const { styles, attributes } = usePopper(virtualReference, popperElement);
 
+  if (!data) return <></>;
+
   return (
     <div
       ref={setPopperElement}
-      style={{ ...styles.popper, visibility: data ? "visible" : "hidden" }}
+      className="tooltip"
+      style={{
+        ...styles.popper,
+        visibility: data ? "visible" : "hidden",
+      }}
       {...attributes.popper}
     >
-      position: {position.x} {position.y}
-      {JSON.stringify(data)}
+      <p>
+        <span style={{ fontWeight: "bold" }}>{data.Winner}</span> vs.
+        {data.Winner === data.R_fighter ? data.B_fighter : data.R_fighter}
+      </p>
+      <p>Won by: {data.win_by}</p>
     </div>
   );
 };

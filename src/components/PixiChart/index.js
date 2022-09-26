@@ -7,7 +7,7 @@ import { Stage, Container, Graphics } from "@inlet/react-pixi/animated";
 import { useData } from "../../hooks/useData";
 import { useDimensions } from "../../hooks/useDimensions";
 import { useScales } from "../../hooks/useScales";
-import { NODE_RADIUS } from "../../constants";
+import { useTooltipData } from "../../hooks/useTooltipData";
 
 const AnimatedCircle = ({ x, yStart, yEnd, r, color }) => {
   const draw = useCallback(
@@ -49,15 +49,11 @@ const Circle = ({ x, y, r, color }) => {
   );
 };
 
-const PixiChart = ({
-  isDataShown,
-  onPointMouseover,
-  onPointMouseout,
-  isAnimated,
-}) => {
+const PixiChart = ({ isDataShown, isAnimated }) => {
   const { width, height, margin } = useDimensions();
   const { data } = useData();
-  const { xScale, yScale, colorScale } = useScales();
+  const { xScale, yScale, colorScale, nodeRadiusScale } = useScales();
+  const { setTooltipData } = useTooltipData();
 
   return (
     <Stage
@@ -77,17 +73,17 @@ const PixiChart = ({
               <AnimatedCircle
                 key={`${d.R_fighter}-${d.B_fighter}-${d.date}`}
                 yStart={yScale(0)}
-                yEnd={yScale(d.total_fight_minutes)}
+                yEnd={yScale(d.cleaned_fight_type)}
                 x={xScale(new Date(d.date))}
-                r={NODE_RADIUS}
+                r={nodeRadiusScale(d.total_fight_minutes)}
                 color={colorScale(d.win_by)}
               />
             ) : (
               <Circle
-                // key={`${d.R_fighter}-${d.B_fighter}-${d.date}`}
+                key={`${d.R_fighter}-${d.B_fighter}-${d.date}`}
                 x={xScale(new Date(d.date))}
-                y={yScale(d.total_fight_minutes)}
-                r={NODE_RADIUS}
+                y={yScale(d.cleaned_fight_type)}
+                r={nodeRadiusScale(d.total_fight_minutes)}
                 color={colorScale(d.win_by)}
               />
             )
