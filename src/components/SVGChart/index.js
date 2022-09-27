@@ -68,10 +68,10 @@ const SVGChart = ({ isDataShown, isAnimated, isBrushEnabled }) => {
         .data(data)
         .join("circle")
         .attr("class", "circle")
-        .attr("cx", (d) => xScale(new Date(d.date)))
-        .attr("cy", (d) =>
-          isAnimated ? yScale(0) : yScale(d.cleaned_fight_type)
+        .attr("cx", (d) =>
+          isAnimated ? xScale.domain[0] : xScale(new Date(d.date))
         )
+        .attr("cy", (d) => yScale(d.cleaned_fight_type))
         .attr("r", (d) => nodeRadiusScale(d.total_fight_minutes))
         .style("fill", (d) => colorScale(d.win_by))
         .on("mouseover", (e, d) => {
@@ -90,7 +90,7 @@ const SVGChart = ({ isDataShown, isAnimated, isBrushEnabled }) => {
         })
         .transition()
         .duration(1000)
-        .attr("cy", (d) => yScale(d.cleaned_fight_type));
+        .attr("cx", (d) => xScale(new Date(d.date)));
     }
   }, [
     data,

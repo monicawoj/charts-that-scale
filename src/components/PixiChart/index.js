@@ -9,9 +9,9 @@ import { useDimensions } from "../../hooks/useDimensions";
 import { useScales } from "../../hooks/useScales";
 import { useTooltipData } from "../../hooks/useTooltipData";
 
-const AnimatedCircle = ({ x, yStart, yEnd, r, color, d, setTooltipData }) => {
+const AnimatedCircle = ({ xStart, xEnd, y, r, color, d, setTooltipData }) => {
   const draw = useCallback(
-    (g, y) => {
+    (g, x) => {
       g.clear();
       g.beginFill(asHexNumber(color));
       g.drawCircle(x, y, r);
@@ -25,11 +25,11 @@ const AnimatedCircle = ({ x, yStart, yEnd, r, color, d, setTooltipData }) => {
       );
       g.endFill();
     },
-    [x, r, color, d, setTooltipData]
+    [y, r, color, d, setTooltipData]
   );
 
   return (
-    <Spring native from={{ y: yStart }} to={{ y: yEnd }}>
+    <Spring native from={{ x: xStart }} to={{ x: xEnd }}>
       {(props) => <Graphics draw={draw} {...props} />}
     </Spring>
   );
@@ -81,9 +81,9 @@ const PixiChart = ({ isDataShown, isAnimated }) => {
               <AnimatedCircle
                 key={`${d.R_fighter}-${d.B_fighter}-${d.date}`}
                 d={d}
-                yStart={yScale(0)}
-                yEnd={yScale(d.cleaned_fight_type)}
-                x={xScale(new Date(d.date))}
+                xStart={xScale.domain[0]}
+                xEnd={xScale(new Date(d.date))}
+                y={yScale(d.cleaned_fight_type)}
                 r={nodeRadiusScale(d.total_fight_minutes)}
                 color={colorScale(d.win_by)}
                 setTooltipData={setTooltipData}
