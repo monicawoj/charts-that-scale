@@ -16,12 +16,12 @@ const ChartContainer = () => {
         <div style={{ position: "absolute", zIndex: 1 }}>
           <PixiChart
             isDataShown={Boolean(data.length >= 1000)}
-            isAnimated={true}
+            isAnimated={Boolean(data.length <= 1000)}
           />
           <SVGChart
             isDataShown={Boolean(data.length < 1000)}
             isAnimated={true}
-            isBrushEnabled={true}
+            isPixiBrushEnabled={Boolean(data.length > 1000)}
           />
         </div>
         <Tooltip />

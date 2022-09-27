@@ -17,9 +17,13 @@ const AnimatedCircle = ({ xStart, xEnd, y, r, color, d, setTooltipData }) => {
       g.drawCircle(x, y, r);
       g.interactive = true;
       g.buttonMode = true;
-      g.on("pointerover", () =>
-        setTooltipData({ data: d, position: { x, y } })
-      );
+      g.on("pointerover", (e) => {
+        const { clientX, clientY } = e.data.originalEvent;
+        setTooltipData({
+          data: d,
+          position: { x: clientX, y: clientY + 10 },
+        });
+      });
       g.on("pointerout", () =>
         setTooltipData({ data: null, position: { x: 0, y: 0 } })
       );
@@ -43,9 +47,13 @@ const Circle = ({ d, x, y, r, color, setTooltipData }) => {
       g.drawCircle(x, y, r);
       g.interactive = true;
       g.buttonMode = true;
-      g.on("pointerover", () =>
-        setTooltipData({ data: d, position: { x, y } })
-      );
+      g.on("pointerover", (e) => {
+        const { clientX, clientY } = e.data.originalEvent;
+        setTooltipData({
+          data: d,
+          position: { x: clientX, y: clientY + 10 },
+        });
+      });
       g.on("pointerout", () =>
         setTooltipData({ data: null, position: { x: 0, y: 0 } })
       );

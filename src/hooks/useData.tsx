@@ -60,14 +60,6 @@ const getModifiedFightType = (d: FightStats) => {
   return weights.length ? weights[0] : "Other";
 };
 
-// const modifiedFightType = d.Fight_type.replaceAll(" Bout", "")
-//   .replaceAll(" Title", "")
-//   .replaceAll(" Interim", "")
-//   .replaceAll("Women's ", "")
-//   .replaceAll("UFC ", "");
-
-// return modifiedFightType;
-
 export const DataProvider: FC<Props> = ({ children }: Props) => {
   const fullData = (rawData as FightStats[])
     .map((d: FightStats) => ({
