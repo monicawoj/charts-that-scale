@@ -5,7 +5,18 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    type: "light",
+    primary: {
+      main: "#3949ab",
+    },
+    secondary: {
+      main: "#f50057",
+    },
+  },
+  typography: { fontFamily: "Lato, -apple-system, sans-serif" },
+});
 
 const Layout = ({ children }) => {
   return (
