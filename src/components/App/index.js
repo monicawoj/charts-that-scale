@@ -1,4 +1,4 @@
-// import Album from "../Album";
+import Layout from "../Layout";
 import ChartContainer from "../ChartContainer";
 import Header from "../Header";
 import { CHART_MARGIN, CHART_HEIGHT } from "../../constants";
@@ -9,11 +9,12 @@ function App() {
   return (
     <DataProvider>
       <div className="App">
-        {/* <Album /> */}
-        <Header />
-        <DimensionsProvider height={CHART_HEIGHT} margin={CHART_MARGIN}>
-          <ChartContainer />
-        </DimensionsProvider>
+        <Layout>
+          <Header />
+          <DimensionsProvider height={CHART_HEIGHT} margin={CHART_MARGIN}>
+            <ChartContainer />
+          </DimensionsProvider>
+        </Layout>
       </div>
     </DataProvider>
   );

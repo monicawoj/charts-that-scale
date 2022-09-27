@@ -1,64 +1,47 @@
-import { useState } from "react";
-import Switch from "@mui/material/Switch";
 import FormGroup from "@mui/material/FormGroup";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
+import Slider from "@mui/material/Slider";
+import Container from "@mui/material/Container";
 import { useData } from "../../hooks/useData";
-import { DATA_SUBSET_SIZE } from "../../constants";
 
 const Header = () => {
   const { data, fullData, setData } = useData();
-  const [isShowingFullData, setIsShowingFullData] = useState(
-    data.length === fullData.length
-  );
-  const [dataLength, setDataLength] = useState(DATA_SUBSET_SIZE);
 
-  const handleToggle = () => {
-    setIsShowingFullData((prevValue) => !prevValue);
-    setData(
-      isShowingFullData ? fullData.slice(1, DATA_SUBSET_SIZE + 1) : fullData
-    );
+  const handleChange = (e) => {
+    setData(fullData.slice(1, e.target.value + 1));
   };
 
-  // const handleDataLengthChange = (e) => {
-  //   const value = e.target.value;
-  //   setDataLength(value);
-  //   setData(fullData.slice(1, value + 1));
-  // };
-
-  // const dataLengths = [10, 100, 300, 500, 1000, 2000, 5000];
+  const marks = [
+    {
+      value: 1000,
+      label: 1000,
+    },
+    {
+      value: fullData.length,
+      label: fullData.length,
+    },
+  ];
 
   return (
-    <div>
-      <div>Total fights: {data.length}</div>
+    <Container>
       <FormGroup>
-        {/* <TextField
-          id="outlined-select-currency"
-          select
-          label="Select"
-          value={dataLength}
-          onChange={handleDataLengthChange}
-          helperText="Please select your currency"
-        >
-          {dataLengths.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </TextField> */}
-        <FormControlLabel
-          control={
-            <Switch
-              checked={isShowingFullData}
-              onChange={handleToggle}
-              label="All fights"
-            />
-          }
-          label="All fights?"
-        />
+        <Box sx={{ width: "100%" }}>
+          <Typography variant="h6" color="inherit" noWrap>
+            Total fights shown:
+          </Typography>
+          <Slider
+            aria-label="Custom marks"
+            value={data.length}
+            min={0}
+            max={fullData.length}
+            onChange={handleChange}
+            valueLabelDisplay="auto"
+            marks={marks}
+          />
+        </Box>
       </FormGroup>
-    </div>
+    </Container>
   );
 };
 

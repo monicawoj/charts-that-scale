@@ -10,7 +10,6 @@ import { legendColor, legendSize } from "d3-svg-legend";
 import { format } from "d3-format";
 import { NODE_RADIUS } from "../../constants";
 import { useTooltipData } from "../../hooks/useTooltipData";
-// import { NODE_RADIUS } from "../../constants";
 
 const SVGChart = ({ isDataShown, isAnimated, isPixiBrushEnabled }) => {
   const { width, height, margin } = useDimensions();
@@ -62,9 +61,8 @@ const SVGChart = ({ isDataShown, isAnimated, isPixiBrushEnabled }) => {
   }, [data, setData, xScale, yScale, width, isPixiBrushEnabled]);
 
   useEffect(() => {
+    const viewport = select(viewportRef.current);
     if (isDataShown) {
-      const viewport = select(viewportRef.current);
-
       viewport
         .selectAll(".circle")
         .data(data)
@@ -93,6 +91,8 @@ const SVGChart = ({ isDataShown, isAnimated, isPixiBrushEnabled }) => {
         .transition()
         .duration(1000)
         .attr("cx", (d) => xScale(new Date(d.date)));
+    } else {
+      viewport.selectAll(".circle").remove();
     }
   }, [
     data,

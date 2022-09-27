@@ -16,7 +16,7 @@ const ChartContainer = () => {
         <div style={{ position: "absolute", zIndex: 1 }}>
           <PixiChart
             isDataShown={Boolean(data.length >= 1000)}
-            isAnimated={Boolean(data.length <= 1000)}
+            isAnimated={Boolean(data.length <= 5000)}
           />
           <SVGChart
             isDataShown={Boolean(data.length < 1000)}
