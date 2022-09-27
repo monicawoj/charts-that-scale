@@ -62,6 +62,7 @@ export const ScalesProvider: FC<Props> = ({
   );
 
   const yScale = useMemo(() => {
+    const allFightTypes = [...new Set(data.map((d) => d.cleaned_fight_type))];
     const orderedFightTypes = [
       "Strawweight",
       "Flyweight",
@@ -74,11 +75,13 @@ export const ScalesProvider: FC<Props> = ({
       "Heavyweight",
     ];
 
+    const domain = orderedFightTypes.filter((el) => allFightTypes.includes(el));
+
     return scalePoint()
-      .domain(orderedFightTypes)
+      .domain(domain)
       .range([height - margin.top - margin.bottom, 0])
       .padding(0.5);
-  }, [height, margin.top, margin.bottom]);
+  }, [data, height, margin.top, margin.bottom]);
 
   const nodeRadiusScale = useMemo(
     () =>

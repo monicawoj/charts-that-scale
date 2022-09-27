@@ -40,8 +40,21 @@ const Tooltip = () => {
       {...attributes.popper}
     >
       <p>
-        <span style={{ fontWeight: "bold" }}>{data.Winner}</span> vs.
-        {data.Winner === data.R_fighter ? data.B_fighter : data.R_fighter}
+        <span
+          style={{
+            fontWeight: data.Winner === data.R_fighter ? "bold" : "normal",
+          }}
+        >
+          {data.R_fighter}
+        </span>{" "}
+        vs.{" "}
+        <span
+          style={{
+            fontWeight: data.Winner === data.B_fighter ? "bold" : "normal",
+          }}
+        >
+          {data.B_fighter}
+        </span>
       </p>
       <p>Won by: {data.win_by}</p>
     </div>
