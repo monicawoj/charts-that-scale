@@ -12,7 +12,7 @@ import { NODE_RADIUS } from "../../constants";
 import { useTooltipData } from "../../hooks/useTooltipData";
 // import { NODE_RADIUS } from "../../constants";
 
-const SVGChart = ({ isDataShown, isAnimated }) => {
+const SVGChart = ({ isDataShown, isAnimated, isBrushEnabled }) => {
   const { width, height, margin } = useDimensions();
   const { data, setData } = useData();
   const { xScale, yScale, colorScale, nodeRadiusScale } = useScales();
@@ -38,7 +38,7 @@ const SVGChart = ({ isDataShown, isAnimated }) => {
   }, [yScale, width]);
 
   useEffect(() => {
-    if (viewportRef.current) {
+    if (viewportRef.current && isBrushEnabled) {
       const brushed = ({ selection }) => {
         if (selection) {
           const [[x0, y0], [x1, y1]] = selection;
@@ -57,7 +57,7 @@ const SVGChart = ({ isDataShown, isAnimated }) => {
       const brush = d3brush().on("end", brushed);
       select(viewportRef.current).call(brush);
     }
-  }, [data, setData, xScale, yScale, width]);
+  }, [data, setData, xScale, yScale, width, isBrushEnabled]);
 
   useEffect(() => {
     if (isDataShown) {
@@ -133,6 +133,7 @@ const SVGChart = ({ isDataShown, isAnimated }) => {
         position: "absolute",
         top: 0,
         left: 0,
+        pointerEvents: "none",
       }}
       width={width}
       height={height}

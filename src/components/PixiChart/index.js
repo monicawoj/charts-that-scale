@@ -9,15 +9,23 @@ import { useDimensions } from "../../hooks/useDimensions";
 import { useScales } from "../../hooks/useScales";
 import { useTooltipData } from "../../hooks/useTooltipData";
 
-const AnimatedCircle = ({ x, yStart, yEnd, r, color }) => {
+const AnimatedCircle = ({ x, yStart, yEnd, r, color, d, setTooltipData }) => {
   const draw = useCallback(
     (g, y) => {
       g.clear();
       g.beginFill(asHexNumber(color));
       g.drawCircle(x, y, r);
+      g.interactive = true;
+      g.buttonMode = true;
+      g.on("pointerover", () =>
+        setTooltipData({ data: d, position: { x, y } })
+      );
+      g.on("pointerout", () =>
+        setTooltipData({ data: null, position: { x: 0, y: 0 } })
+      );
       g.endFill();
     },
-    [x, r, color]
+    [x, r, color, d, setTooltipData]
   );
 
   return (
@@ -27,26 +35,26 @@ const AnimatedCircle = ({ x, yStart, yEnd, r, color }) => {
   );
 };
 
-const Circle = ({ x, y, r, color }) => {
+const Circle = ({ d, x, y, r, color, setTooltipData }) => {
   const draw = useCallback(
     (g) => {
       g.clear();
       g.beginFill(asHexNumber(color));
       g.drawCircle(x, y, r);
+      g.interactive = true;
+      g.buttonMode = true;
+      g.on("pointerover", () =>
+        setTooltipData({ data: d, position: { x, y } })
+      );
+      g.on("pointerout", () =>
+        setTooltipData({ data: null, position: { x: 0, y: 0 } })
+      );
       g.endFill();
     },
-    [x, y, r, color]
+    [d, x, y, r, color, setTooltipData]
   );
 
-  return (
-    <Graphics
-      draw={draw}
-      interactive={true}
-      mouseover={(d) => {
-        console.log("hovered!", d);
-      }}
-    />
-  );
+  return <Graphics draw={draw} />;
 };
 
 const PixiChart = ({ isDataShown, isAnimated }) => {
@@ -64,7 +72,7 @@ const PixiChart = ({ isDataShown, isAnimated }) => {
       }}
       width={width}
       height={height}
-      options={{ backgroundColor: asHexNumber("white") }}
+      options={{ backgroundAlpha: 0 }}
     >
       {isDataShown && (
         <Container x={margin.left} y={margin.top}>
@@ -72,19 +80,23 @@ const PixiChart = ({ isDataShown, isAnimated }) => {
             isAnimated ? (
               <AnimatedCircle
                 key={`${d.R_fighter}-${d.B_fighter}-${d.date}`}
+                d={d}
                 yStart={yScale(0)}
                 yEnd={yScale(d.cleaned_fight_type)}
                 x={xScale(new Date(d.date))}
                 r={nodeRadiusScale(d.total_fight_minutes)}
                 color={colorScale(d.win_by)}
+                setTooltipData={setTooltipData}
               />
             ) : (
               <Circle
                 key={`${d.R_fighter}-${d.B_fighter}-${d.date}`}
+                d={d}
                 x={xScale(new Date(d.date))}
                 y={yScale(d.cleaned_fight_type)}
                 r={nodeRadiusScale(d.total_fight_minutes)}
                 color={colorScale(d.win_by)}
+                setTooltipData={setTooltipData}
               />
             )
           )}

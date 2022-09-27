@@ -21,6 +21,7 @@ const ChartContainer = () => {
           <SVGChart
             isDataShown={Boolean(data.length < 1000)}
             isAnimated={true}
+            isBrushEnabled={true}
           />
         </div>
         <Tooltip />
