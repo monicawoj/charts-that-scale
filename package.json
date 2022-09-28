@@ -1,5 +1,6 @@
 {
   "name": "armada-js-2022",
+  "homepage": "https://monicawoj.github.io/charts-that-scale",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -35,6 +36,7 @@
     "d3-svg-legend": "^2.25.6",
     "d3-time": "^3.0.0",
     "d3-transition": "^3.0.1",
+    "gh-pages": "^4.0.0",
     "pixi.js": "^6.5.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -48,6 +50,8 @@
     "d3-selection": "3.0.0"
   },
   "scripts": {
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -b main -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -70,5 +74,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }
