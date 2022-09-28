@@ -1,5 +1,5 @@
 import { memo, useCallback } from "react";
-import { asHexNumber } from "./utils";
+import { asHexNumber } from "../../utils";
 import { Spring } from "react-spring";
 import { Stage, Container, Graphics } from "@inlet/react-pixi/animated";
 // For React 18 support: https://github.com/inlet/react-pixi/pull/338

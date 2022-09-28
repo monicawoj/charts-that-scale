@@ -2,9 +2,8 @@ import { useData } from "../../hooks/useData";
 import ChartContainer from "../ChartContainer";
 import { DimensionsProvider } from "../../hooks/useDimensions";
 import { CHART_MARGIN, CHART_HEIGHT } from "../../constants";
-import { Typography } from "@mui/material";
 
-const Chart = ({ version = "pixi-and-svg-conditional-render" }) => {
+const Chart = ({ version = "pixi-with-tooltip-and-brush" }) => {
   const { data } = useData();
 
   const versionProps = {
@@ -80,7 +79,7 @@ const Chart = ({ version = "pixi-and-svg-conditional-render" }) => {
       isPixiTooltipEnabled: false,
       isBrushEnabled: true,
     },
-    "pixi-and-svg-conditional-render": {
+    "pixi-with-tooltip-and-brush": {
       isSVGShown: true,
       isSVGDataShown: Boolean(data.length < 300),
       isSVGAnimated: Boolean(data.length < 300),
@@ -96,7 +95,6 @@ const Chart = ({ version = "pixi-and-svg-conditional-render" }) => {
 
   return (
     <DimensionsProvider height={CHART_HEIGHT} margin={CHART_MARGIN}>
-      <Typography>{version}</Typography>
       <ChartContainer {...props} />
     </DimensionsProvider>
   );

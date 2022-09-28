@@ -1,13 +1,14 @@
 import FormGroup from "@mui/material/FormGroup";
-import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import Slider from "@mui/material/Slider";
 import { useData } from "../../hooks/useData";
+import ChartVersionSelector from "./ChartVersionSelector";
 
-const Header = () => {
+const Settings = ({ chartVersion, handleChartVersionChange }) => {
   const { data, fullData, setData } = useData();
 
-  const handleChange = (e) => {
+  const handleDataLengthChange = (e) => {
     setData(fullData.slice(1, e.target.value + 1));
   };
 
@@ -39,23 +40,32 @@ const Header = () => {
   ];
 
   return (
-    <FormGroup>
-      <Box sx={{ width: "100%" }}>
-        <Typography variant="h6" color="inherit" noWrap>
-          Total fights shown:
-        </Typography>
+    <FormGroup
+      sx={{
+        width: "100%",
+        paddingLeft: "20px",
+        paddingRight: "20px",
+      }}
+    >
+      <FormControl>
+        <FormLabel id="data-length-slider">Total fights displayed</FormLabel>
         <Slider
+          aria-labelledby="data-length-slider"
           aria-label="Custom marks"
           value={data.length}
           min={10}
           max={fullData.length}
-          onChange={handleChange}
+          onChange={handleDataLengthChange}
           valueLabelDisplay="auto"
           marks={marks}
         />
-      </Box>
+      </FormControl>
+      <ChartVersionSelector
+        value={chartVersion}
+        handleChange={handleChartVersionChange}
+      />
     </FormGroup>
   );
 };
 
-export default Header;
+export default Settings;

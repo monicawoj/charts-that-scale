@@ -34,3 +34,8 @@ export interface FightStats {
   total_fight_minutes?: number; // custom calculation
   cleaned_fight_type?: string; // custom calculation
 }
+
+export interface TooltipData {
+  data: FightStats | null;
+  position: { x: number; y: number };
+}

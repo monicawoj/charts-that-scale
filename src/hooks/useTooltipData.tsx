@@ -1,10 +1,6 @@
 import { createContext, useCallback, FC, ReactNode, useContext } from "react";
-import { FightStats } from "../types/data";
+import { TooltipData } from "../types/data";
 
-interface TooltipData {
-  data: FightStats | null;
-  position: { x: number; y: number };
-}
 interface Props {
   initialData: TooltipData;
   children?: ReactNode;
