@@ -9,27 +9,37 @@ import { useDimensions } from "../../hooks/useDimensions";
 import { useScales } from "../../hooks/useScales";
 import { useTooltipData } from "../../hooks/useTooltipData";
 
-const AnimatedCircle = ({ xStart, xEnd, y, r, color, d, setTooltipData }) => {
+const AnimatedCircle = ({
+  xStart,
+  xEnd,
+  y,
+  r,
+  color,
+  d,
+  onPointerEvent,
+  isTooltipEnabled,
+}) => {
   const draw = useCallback(
     (g, x) => {
       g.clear();
       g.beginFill(asHexNumber(color));
       g.drawCircle(x, y, r);
-      g.interactive = true;
-      g.buttonMode = true;
-      g.on("pointerover", (e) => {
-        const { clientX, clientY } = e.data.originalEvent;
-        setTooltipData({
-          data: d,
-          position: { x: clientX, y: clientY + 10 },
-        });
-      });
-      g.on("pointerout", () =>
-        setTooltipData({ data: null, position: { x: 0, y: 0 } })
-      );
       g.endFill();
+
+      if (isTooltipEnabled) {
+        g.interactive = true;
+        g.buttonMode = true;
+        g.on("pointerover", (e) => {
+          const { clientX, clientY } = e.data.originalEvent;
+          onPointerEvent({
+            data: d,
+            position: { x: clientX, y: clientY + 10 },
+          });
+        });
+        g.on("pointerout", () => onPointerEvent());
+      }
     },
-    [y, r, color, d, setTooltipData]
+    [y, r, color, d, onPointerEvent, isTooltipEnabled]
   );
 
   return (
@@ -39,33 +49,34 @@ const AnimatedCircle = ({ xStart, xEnd, y, r, color, d, setTooltipData }) => {
   );
 };
 
-const Circle = ({ d, x, y, r, color, setTooltipData }) => {
+const Circle = ({ d, x, y, r, color, onPointerEvent, isTooltipEnabled }) => {
   const draw = useCallback(
     (g) => {
       g.clear();
       g.beginFill(asHexNumber(color));
       g.drawCircle(x, y, r);
-      g.interactive = true;
-      g.buttonMode = true;
-      g.on("pointerover", (e) => {
-        const { clientX, clientY } = e.data.originalEvent;
-        setTooltipData({
-          data: d,
-          position: { x: clientX, y: clientY + 10 },
-        });
-      });
-      g.on("pointerout", () =>
-        setTooltipData({ data: null, position: { x: 0, y: 0 } })
-      );
       g.endFill();
+
+      if (isTooltipEnabled) {
+        g.interactive = true;
+        g.buttonMode = true;
+        g.on("pointerover", (e) => {
+          const { clientX, clientY } = e.data.originalEvent;
+          onPointerEvent({
+            data: d,
+            position: { x: clientX, y: clientY + 10 },
+          });
+        });
+        g.on("pointerout", () => onPointerEvent());
+      }
     },
-    [d, x, y, r, color, setTooltipData]
+    [d, x, y, r, color, onPointerEvent, isTooltipEnabled]
   );
 
   return <Graphics draw={draw} />;
 };
 
-const PixiChart = ({ isDataShown, isAnimated }) => {
+const PixiChart = ({ isDataShown, isAnimated, isTooltipEnabled }) => {
   const { width, height, margin } = useDimensions();
   const { data } = useData();
   const { xScale, yScale, colorScale, nodeRadiusScale } = useScales();
@@ -94,7 +105,8 @@ const PixiChart = ({ isDataShown, isAnimated }) => {
                 y={yScale(d.cleaned_fight_type)}
                 r={nodeRadiusScale(d.total_fight_minutes)}
                 color={colorScale(d.win_by)}
-                setTooltipData={setTooltipData}
+                onPointerEvent={setTooltipData}
+                isTooltipEnabled={isTooltipEnabled}
               />
             ) : (
               <Circle
@@ -104,7 +116,8 @@ const PixiChart = ({ isDataShown, isAnimated }) => {
                 y={yScale(d.cleaned_fight_type)}
                 r={nodeRadiusScale(d.total_fight_minutes)}
                 color={colorScale(d.win_by)}
-                setTooltipData={setTooltipData}
+                onPointerEvent={setTooltipData}
+                isTooltipEnabled={isTooltipEnabled}
               />
             )
           )}

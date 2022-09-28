@@ -11,7 +11,12 @@ import { format } from "d3-format";
 import { NODE_RADIUS } from "../../constants";
 import { useTooltipData } from "../../hooks/useTooltipData";
 
-const SVGChart = ({ isDataShown, isAnimated, isPixiBrushEnabled }) => {
+const SVGChart = ({
+  isDataShown,
+  isAnimated,
+  isBrushEnabled,
+  isPixiTooltipEnabled,
+}) => {
   const { width, height, margin } = useDimensions();
   const { data, setData } = useData();
   const { xScale, yScale, colorScale, nodeRadiusScale } = useScales();
@@ -49,16 +54,30 @@ const SVGChart = ({ isDataShown, isAnimated, isPixiBrushEnabled }) => {
               yScale(d.cleaned_fight_type) < y1
           );
           setData(filteredData);
-          select(viewportRef.current).call(brush.clear);
+          select(viewportRef.current).select(".brush").call(brush.clear);
         }
       };
 
       const brush = d3brush().on("end", brushed);
-      if (isPixiBrushEnabled) {
-        select(viewportRef.current).call(brush);
+      const brushElement = select(viewportRef.current).select(".brush");
+      const brushElementExists = !brushElement.empty();
+
+      if (isBrushEnabled) {
+        if (brushElementExists) {
+          brushElement.call(brush);
+        } else {
+          const newBrushElement = select(viewportRef.current)
+            .append("g")
+            .classed("brush", true);
+          newBrushElement.call(brush);
+        }
+      } else {
+        if (brushElementExists) {
+          select(viewportRef.current).select(".brush").remove();
+        }
       }
     }
-  }, [data, setData, xScale, yScale, width, isPixiBrushEnabled]);
+  }, [data, setData, xScale, yScale, width, isBrushEnabled]);
 
   useEffect(() => {
     const viewport = select(viewportRef.current);
@@ -74,6 +93,7 @@ const SVGChart = ({ isDataShown, isAnimated, isPixiBrushEnabled }) => {
         .attr("cy", (d) => yScale(d.cleaned_fight_type))
         .attr("r", (d) => nodeRadiusScale(d.total_fight_minutes))
         .style("fill", (d) => colorScale(d.win_by))
+        .style("cursor", "pointer")
         .on("mouseover", (e, d) => {
           const position = { x: e.clientX, y: e.clientY };
           setTooltipData({ data: d, position });
@@ -83,7 +103,7 @@ const SVGChart = ({ isDataShown, isAnimated, isPixiBrushEnabled }) => {
           );
         })
         .on("mouseout", (e, d) => {
-          setTooltipData({ data: null, position: { x: 0, y: 0 } });
+          setTooltipData();
           select(e.target).attr("r", (d) =>
             nodeRadiusScale(d.total_fight_minutes)
           );
@@ -135,7 +155,7 @@ const SVGChart = ({ isDataShown, isAnimated, isPixiBrushEnabled }) => {
         position: "absolute",
         top: 0,
         left: 0,
-        pointerEvents: isPixiBrushEnabled ? "auto" : "none",
+        pointerEvents: isPixiTooltipEnabled ? "none" : "auto",
       }}
       width={width}
       height={height}
@@ -153,6 +173,7 @@ const SVGChart = ({ isDataShown, isAnimated, isPixiBrushEnabled }) => {
       </g>
       <g
         ref={viewportRef}
+        className="viewport"
         width={width - margin.left - margin.right}
         height={height - margin.top - margin.bottom}
         transform={`translate(${margin.left}, ${margin.top})`}

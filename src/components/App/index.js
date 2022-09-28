@@ -1,19 +1,25 @@
+import Container from "@mui/material/Container";
 import Layout from "../Layout";
-import ChartContainer from "../ChartContainer";
+import Chart from "../Chart";
 import Header from "../Header";
-import { CHART_MARGIN, CHART_HEIGHT } from "../../constants";
 import { DataProvider } from "../../hooks/useData";
-import { DimensionsProvider } from "../../hooks/useDimensions";
 
 function App() {
   return (
     <DataProvider>
       <div className="App">
         <Layout>
-          <Header />
-          <DimensionsProvider height={CHART_HEIGHT} margin={CHART_MARGIN}>
-            <ChartContainer />
-          </DimensionsProvider>
+          <Container>
+            <Header />
+          </Container>
+          {/* <Chart version="animated-svg" /> */}
+          {/* <Chart version="static-pixi-no-svg" /> */}
+          {/* <Chart version="pure-svg-overlay" /> */}
+          {/* <Chart version="static-pixi-with-svg" /> */}
+          {/* <Chart version="animated-pixi-with-svg" /> */}
+          {/* <Chart version="animated-pixi-with-tooltip" /> */}
+          {/* <Chart version="animated-pixi-with-brush" /> */}
+          <Chart version="pixi-and-svg-conditional-render" />
         </Layout>
       </div>
     </DataProvider>

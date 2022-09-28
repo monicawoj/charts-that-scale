@@ -1,11 +1,20 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { usePopper } from "react-popper";
-import { useTooltipData } from "../../hooks/useTooltipData";
 
 const Tooltip = () => {
-  const {
-    tooltipData: { position, data },
-  } = useTooltipData();
+  const initialData = localStorage.getItem("tooltipData");
+  const [tooltipData, setTooltipData] = useState(JSON.parse(initialData));
+
+  useEffect(() => {
+    // Hack in place to stop the charts from re-rendering every time the tooltip data change
+    // The PixiChart and SVGChart were re-rendering because their parent was re-rendering
+    // as tooltipData was changing
+    window.addEventListener("tooltipDataChange", () => {
+      setTooltipData(JSON.parse(localStorage.getItem("tooltipData")));
+    });
+  }, []);
+
+  const { position, data } = tooltipData;
 
   const virtualReference = useMemo(
     () => ({
