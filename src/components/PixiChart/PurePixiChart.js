@@ -23,13 +23,6 @@ const PurePixiChart = ({ isDataShown, isAnimated, isTooltipEnabled }) => {
         y: 0,
         backgroundAlpha: 0,
         antialias: true,
-        renderer: PIXI.autoDetectRenderer({
-          width: width,
-          height: height,
-          antialias: true,
-          autoResize: true,
-          resolution: window.devicePixelRatio,
-        }),
       });
 
       // create a white texture to be used by our sprites
@@ -50,7 +43,7 @@ const PurePixiChart = ({ isDataShown, isAnimated, isTooltipEnabled }) => {
       container.y = margin.top;
 
       // time animation in seconds
-      const duration = 0.5;
+      const duration = 0.3;
 
       const renderSprite = ({
         d,
@@ -63,8 +56,8 @@ const PurePixiChart = ({ isDataShown, isAnimated, isTooltipEnabled }) => {
         onPointerEvent,
       }) => {
         const sprite = new PIXI.Sprite(texture);
+
         sprite.anchor.set(0.5);
-        container.addChild(sprite);
         sprite.x = x0;
         sprite.y = y;
         sprite.width = width;
@@ -84,12 +77,19 @@ const PurePixiChart = ({ isDataShown, isAnimated, isTooltipEnabled }) => {
           sprite.on("pointerout", () => onPointerEvent());
         }
 
-        // sometimes buggy, need to look into this
-        if (sprite) {
-          gsap.to(sprite, { x: x1, duration });
-        } else {
+        const tween = gsap.to(sprite, {
+          x: x1,
+          duration,
+          overwrite: true,
+        });
+
+        // This is a hack to keep the app from crashing due to an animation error
+        window.addEventListener("error", (event) => {
+          tween.kill();
           sprite.x = x1;
-        }
+        });
+
+        container.addChild(sprite);
       };
 
       data.forEach((d) => {
