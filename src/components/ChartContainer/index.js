@@ -19,13 +19,19 @@ const ChartContainer = ({
   isPurePixiWithSprites = false,
 }) => {
   const { width, height, margin } = useDimensions();
-  const { data } = useData();
+  const { data, fullData } = useData();
 
   // Reset the tooltip data every time the chart container re-renders
   localStorage.setItem("tooltipData", JSON.stringify(INITIAL_TOOLTIP_DATA));
 
   return (
-    <ScalesProvider data={data} width={width} height={height} margin={margin}>
+    <ScalesProvider
+      data={data}
+      fullData={fullData}
+      width={width}
+      height={height}
+      margin={margin}
+    >
       <TooltipDataProvider>
         <div style={{ position: "absolute", zIndex: 1 }}>
           {!isPurePixiWithSprites && (

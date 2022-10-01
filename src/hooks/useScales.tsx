@@ -17,6 +17,7 @@ import { NODE_RADIUS } from "../constants";
 
 interface Props {
   data: FightStats[];
+  fullData: FightStats[];
   width: number;
   height: number;
   margin: Margin;
@@ -34,6 +35,7 @@ const ScalesContext = createContext<Context | null>(null);
 
 export const ScalesProvider: FC<Props> = ({
   data,
+  fullData,
   width,
   height,
   margin,
@@ -92,7 +94,7 @@ export const ScalesProvider: FC<Props> = ({
   );
 
   const colorScale = useMemo(() => {
-    const winByTypes = [...new Set(data.map((d) => d.win_by))];
+    const winByTypes = [...new Set(fullData.map((d) => d.win_by))];
     const colors = [
       "#e60049",
       "#0bb4ff",
@@ -105,7 +107,7 @@ export const ScalesProvider: FC<Props> = ({
       "#00bfa0",
     ];
     return scaleOrdinal(colors).domain(winByTypes);
-  }, [data]);
+  }, [fullData]);
 
   return (
     <ScalesContext.Provider
