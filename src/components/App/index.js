@@ -25,9 +25,7 @@ const theme = createTheme({
 });
 
 function App() {
-  const [chartVersion, setChartVersion] = useState(
-    "pixi-with-tooltip-and-brush"
-  );
+  const [chartVersion, setChartVersion] = useState("pure-svg");
   const handleChartVersionChange = useMemo(() => setChartVersion, []);
 
   return (

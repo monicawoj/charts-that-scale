@@ -16,7 +16,7 @@ const Chart = ({ version = "pixi-with-tooltip-and-brush" }) => {
       isPixiTooltipEnabled: false,
       isBrushEnabled: false,
     },
-    "animated-svg": {
+    "pure-svg": {
       isSVGShown: true,
       isSVGDataShown: true,
       isSVGAnimated: true,
@@ -52,6 +52,15 @@ const Chart = ({ version = "pixi-with-tooltip-and-brush" }) => {
       isPixiTooltipEnabled: false,
       isBrushEnabled: false,
     },
+    "animated-react-pixi-with-svg": {
+      isSVGShown: true,
+      isSVGDataShown: false,
+      isSVGAnimated: false,
+      isPixiDataShown: true,
+      isPixiAnimated: true,
+      isPixiTooltipEnabled: false,
+      isBrushEnabled: false,
+    },
     "animated-pixi-with-svg": {
       isSVGShown: true,
       isSVGDataShown: false,
@@ -60,6 +69,7 @@ const Chart = ({ version = "pixi-with-tooltip-and-brush" }) => {
       isPixiAnimated: true,
       isPixiTooltipEnabled: false,
       isBrushEnabled: false,
+      isPurePixiWithSprites: true,
     },
     "animated-pixi-with-tooltip": {
       isSVGShown: true,
@@ -69,35 +79,17 @@ const Chart = ({ version = "pixi-with-tooltip-and-brush" }) => {
       isPixiAnimated: true,
       isPixiTooltipEnabled: true,
       isBrushEnabled: false,
+      isPurePixiWithSprites: true,
     },
-    "animated-pixi-with-brush": {
+    "animated-pixi-with-tooltip-and-brush": {
       isSVGShown: true,
-      isSVGDataShown: false,
-      isSVGAnimated: false,
-      isPixiDataShown: true,
+      isSVGDataShown: Boolean(data.length < 300),
+      isSVGAnimated: Boolean(data.length < 300),
+      isPixiDataShown: Boolean(data.length >= 300),
       isPixiAnimated: true,
-      isPixiTooltipEnabled: false,
-      isBrushEnabled: true,
-    },
-    "pixi-with-tooltip-and-brush": {
-      isSVGShown: true,
-      isSVGDataShown: Boolean(data.length < 300),
-      isSVGAnimated: Boolean(data.length < 300),
-      isPixiDataShown: Boolean(data.length >= 300),
-      isPixiAnimated: Boolean(data.length <= 3000),
       isPixiTooltipEnabled:
-        Boolean(data.length >= 300) && Boolean(data.length <= 3000),
-      isBrushEnabled: Boolean(data.length > 3000),
-    },
-    "pure-pixi-with-sprites": {
-      isSVGShown: true,
-      isSVGDataShown: Boolean(data.length < 300),
-      isSVGAnimated: Boolean(data.length < 300),
-      isPixiDataShown: Boolean(data.length >= 300),
-      isPixiAnimated: Boolean(data.length <= 3000),
-      isPixiTooltipEnabled:
-        Boolean(data.length >= 300) && Boolean(data.length <= 3000),
-      isBrushEnabled: Boolean(data.length > 3000),
+        Boolean(data.length >= 300) && Boolean(data.length <= 1000),
+      isBrushEnabled: Boolean(data.length > 1000),
       isPurePixiWithSprites: true,
     },
   };

@@ -7,19 +7,23 @@ import FormLabel from "@mui/material/FormLabel";
 const ChartVersionSelector = ({ value, handleChange }) => {
   const options = [
     {
-      name: "SVG (animated)",
-      value: "animated-svg",
+      name: "Pure SVG",
+      value: "pure-svg",
     },
     {
-      name: "Pixi (static)",
+      name: "Pure React Pixi",
       value: "static-pixi-no-svg",
     },
     {
-      name: "Pixi + SVG (static)",
+      name: "React Pixi + SVG (static)",
       value: "static-pixi-with-svg",
     },
     {
-      name: "Pixi + SVG (animated)",
+      name: "React Pixi + SVG (animated)",
+      value: "animated-react-pixi-with-svg",
+    },
+    {
+      name: "Pixi + SVG (animated sprites)",
       value: "animated-pixi-with-svg",
     },
     {
@@ -27,16 +31,8 @@ const ChartVersionSelector = ({ value, handleChange }) => {
       value: "animated-pixi-with-tooltip",
     },
     {
-      name: "Pixi + SVG (d3-brush)",
-      value: "animated-pixi-with-brush",
-    },
-    {
-      name: "React Pixi w/Graphics",
-      value: "pixi-with-tooltip-and-brush",
-    },
-    {
-      name: "Pure Pixi w/Sprites ",
-      value: "pure-pixi-with-sprites",
+      name: "Pixi + SVG (brush)",
+      value: "animated-pixi-with-tooltip-and-brush",
     },
   ];
 

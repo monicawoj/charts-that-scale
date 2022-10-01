@@ -3,11 +3,11 @@ import { select } from "d3-selection";
 import { transition } from "d3-transition";
 import { brush as d3brush } from "d3-brush";
 import { axisLeft, axisBottom } from "d3-axis";
+import { legendColor, legendSize } from "d3-svg-legend";
+import { format } from "d3-format";
 import { useData } from "../../hooks/useData";
 import { useDimensions } from "../../hooks/useDimensions";
 import { useScales } from "../../hooks/useScales";
-import { legendColor, legendSize } from "d3-svg-legend";
-import { format } from "d3-format";
 import { NODE_RADIUS } from "../../constants";
 import { useTooltipData } from "../../hooks/useTooltipData";
 
@@ -84,7 +84,8 @@ const SVGChart = ({
     if (isDataShown) {
       viewport
         .selectAll(".circle")
-        .data(data)
+        // TODO: remove this! just for representative purposes!
+        .data([...data, ...data])
         .join("circle")
         .attr("class", "circle")
         .attr("cx", (d) =>
