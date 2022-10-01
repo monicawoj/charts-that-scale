@@ -61,6 +61,8 @@ const getModifiedFightType = (d: FightStats) => {
 };
 
 export const DataProvider: FC<Props> = ({ children }: Props) => {
+  // uncomment for double data
+  // const fullData = [...(rawData as FightStats[]), ...(rawData as FightStats[])];
   const fullData = (rawData as FightStats[])
     .map((d: FightStats) => ({
       ...d,

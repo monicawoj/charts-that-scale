@@ -31,8 +31,12 @@ const ChartVersionSelector = ({ value, handleChange }) => {
       value: "animated-pixi-with-brush",
     },
     {
-      name: "Pixi + SVG (tooltip + brush)",
+      name: "React Pixi w/Graphics",
       value: "pixi-with-tooltip-and-brush",
+    },
+    {
+      name: "Pure Pixi w/Sprites ",
+      value: "pure-pixi-with-sprites",
     },
   ];
 

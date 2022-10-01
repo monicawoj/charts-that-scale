@@ -1,5 +1,6 @@
 import PixiChart from "../PixiChart";
 import SVGChart from "../SVGChart";
+import PixiChartWithSprites from "../PixiChart/PurePixiChart";
 import Tooltip from "../Tooltip";
 import { useData } from "../../hooks/useData";
 import { useDimensions } from "../../hooks/useDimensions";
@@ -15,6 +16,7 @@ const ChartContainer = ({
   isSVGAnimated,
   isPixiTooltipEnabled,
   isBrushEnabled,
+  isPurePixiWithSprites = false,
 }) => {
   const { width, height, margin } = useDimensions();
   const { data } = useData();
@@ -26,11 +28,20 @@ const ChartContainer = ({
     <ScalesProvider data={data} width={width} height={height} margin={margin}>
       <TooltipDataProvider>
         <div style={{ position: "absolute", zIndex: 1 }}>
-          <PixiChart
-            isDataShown={isPixiDataShown}
-            isAnimated={isPixiAnimated}
-            isTooltipEnabled={isPixiTooltipEnabled}
-          />
+          {!isPurePixiWithSprites && (
+            <PixiChart
+              isDataShown={isPixiDataShown}
+              isAnimated={isPixiAnimated}
+              isTooltipEnabled={isPixiTooltipEnabled}
+            />
+          )}
+          {isPurePixiWithSprites && (
+            <PixiChartWithSprites
+              isDataShown={isPixiDataShown}
+              isAnimated={isPixiAnimated}
+              isTooltipEnabled={isPixiTooltipEnabled}
+            />
+          )}
           {isSVGShown && (
             <SVGChart
               isDataShown={isSVGDataShown}

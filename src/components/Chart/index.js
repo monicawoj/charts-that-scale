@@ -89,6 +89,17 @@ const Chart = ({ version = "pixi-with-tooltip-and-brush" }) => {
         Boolean(data.length >= 300) && Boolean(data.length <= 3000),
       isBrushEnabled: Boolean(data.length > 3000),
     },
+    "pure-pixi-with-sprites": {
+      isSVGShown: true,
+      isSVGDataShown: Boolean(data.length < 300),
+      isSVGAnimated: Boolean(data.length < 300),
+      isPixiDataShown: Boolean(data.length >= 300),
+      isPixiAnimated: Boolean(data.length <= 3000),
+      isPixiTooltipEnabled:
+        Boolean(data.length >= 300) && Boolean(data.length <= 3000),
+      isBrushEnabled: Boolean(data.length > 3000),
+      isPurePixiWithSprites: true,
+    },
   };
 
   const props = versionProps[version];
