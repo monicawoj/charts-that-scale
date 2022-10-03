@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/charts-that-scale/static/css/main.98cef33d.css",
-    "main.js": "/charts-that-scale/static/js/main.0dbda0d9.js",
+    "main.css": "/charts-that-scale/static/css/main.c4259056.css",
+    "main.js": "/charts-that-scale/static/js/main.e456200a.js",
     "static/js/787.38d16b04.chunk.js": "/charts-that-scale/static/js/787.38d16b04.chunk.js",
     "index.html": "/charts-that-scale/index.html",
-    "main.98cef33d.css.map": "/charts-that-scale/static/css/main.98cef33d.css.map",
-    "main.0dbda0d9.js.map": "/charts-that-scale/static/js/main.0dbda0d9.js.map",
+    "main.c4259056.css.map": "/charts-that-scale/static/css/main.c4259056.css.map",
+    "main.e456200a.js.map": "/charts-that-scale/static/js/main.e456200a.js.map",
     "787.38d16b04.chunk.js.map": "/charts-that-scale/static/js/787.38d16b04.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.98cef33d.css",
-    "static/js/main.0dbda0d9.js"
+    "static/css/main.c4259056.css",
+    "static/js/main.e456200a.js"
   ]
 }
