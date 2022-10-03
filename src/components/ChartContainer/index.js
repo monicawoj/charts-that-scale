@@ -33,7 +33,14 @@ const ChartContainer = ({
       margin={margin}
     >
       <TooltipDataProvider>
-        <div style={{ position: "absolute", zIndex: 1 }}>
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            height: "100%",
+            width: "100%",
+          }}
+        >
           {!isPurePixiWithSprites && (
             <PixiChart
               isDataShown={isPixiDataShown}

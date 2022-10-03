@@ -97,7 +97,7 @@ const Chart = ({ version = "pixi-with-tooltip-and-brush" }) => {
   const props = versionProps[version];
 
   return (
-    <DimensionsProvider height={CHART_HEIGHT} margin={CHART_MARGIN}>
+    <DimensionsProvider margin={CHART_MARGIN}>
       <ChartContainer {...props} />
     </DimensionsProvider>
   );

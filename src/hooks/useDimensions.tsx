@@ -51,7 +51,12 @@ export const DimensionsProvider: FC<Props> = ({
         margin: fixedMargin ?? CHART_MARGIN,
       }}
     >
-      <div ref={containerRef}>{children}</div>
+      <div
+        ref={containerRef}
+        style={{ flex: 1, width: "100%", height: "100%" }}
+      >
+        {children}
+      </div>
     </DimensionsContext.Provider>
   );
 };

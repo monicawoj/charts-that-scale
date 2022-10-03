@@ -193,10 +193,10 @@ const SVGChart = ({
       />
       <g
         ref={legendRef}
-        transform={`translate(${width - margin.right + 20}, ${margin.top})`}
+        transform={`translate(${width - margin.right + 20}, 20)`}
       >
         <g className="sizeLegend" />
-        <g className="colorLegend" transform={`translate(0, ${margin.top})`} />
+        <g className="colorLegend" transform={`translate(0, 100)`} />
       </g>
     </svg>
   );

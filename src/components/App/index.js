@@ -32,47 +32,58 @@ function App() {
     <DataProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AppBar position="relative">
-          <Toolbar>
-            <Typography sx={{ flexGrow: 1 }}>
-              Creating Charts that Scale - React + D3 + PixiJS
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography>Monica Wojciechowska</Typography>
-
-              <IconButton
-                component="a"
-                href="https://github.com/monicawoj/charts-that-scale"
-                target="_blank"
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="github"
-                sx={{ ml: 2 }}
-              >
-                <GitHubIcon />
-              </IconButton>
-            </Box>
-          </Toolbar>
-        </AppBar>
         <Box
           sx={{
-            bgcolor: "background.paper",
-            pt: 4,
-            pb: 4,
+            margin: 0,
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <Settings
-            chartVersion={chartVersion}
-            handleChartVersionChange={handleChartVersionChange}
-          />
-          <Chart version={chartVersion} />
+          <AppBar position="relative" sx={{ height: "36px" }}>
+            <Toolbar variant="dense" sx={{ minHeight: "36px" }}>
+              <Typography sx={{ flexGrow: 1 }}>
+                Creating Charts that Scale - React + D3 + PixiJS
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography>Monica Wojciechowska</Typography>
+                <IconButton
+                  component="a"
+                  href="https://github.com/monicawoj/charts-that-scale"
+                  target="_blank"
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="github"
+                  sx={{ ml: 2 }}
+                >
+                  <GitHubIcon />
+                </IconButton>
+              </Box>
+            </Toolbar>
+          </AppBar>
+          <Box
+            sx={{
+              bgcolor: "background.paper",
+              // height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+            }}
+          >
+            <Settings
+              chartVersion={chartVersion}
+              handleChartVersionChange={handleChartVersionChange}
+            />
+            <Chart version={chartVersion} />
+          </Box>
         </Box>
       </ThemeProvider>
     </DataProvider>

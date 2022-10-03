@@ -46,7 +46,7 @@ const PixiChart = () => {
         antialias: true,
       });
 
-      // create a white texture to be used by our sprites
+      // create a white circle template to be used by our sprites
       const circleTemplate = new PIXI.Graphics()
         .beginFill(0xffffff)
         .drawCircle(0, 0, 10)

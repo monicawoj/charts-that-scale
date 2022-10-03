@@ -45,10 +45,11 @@ const Settings = ({ chartVersion, handleChartVersionChange }) => {
         width: "100%",
         paddingLeft: "20px",
         paddingRight: "20px",
+        paddingTop: "10px",
       }}
     >
       <FormControl>
-        <FormLabel id="data-length-slider">Total fights displayed</FormLabel>
+        {/* <FormLabel id="data-length-slider">Total fights displayed</FormLabel> */}
         <Slider
           aria-labelledby="data-length-slider"
           aria-label="Custom marks"

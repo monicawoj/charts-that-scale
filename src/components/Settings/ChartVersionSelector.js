@@ -15,30 +15,30 @@ const ChartVersionSelector = ({ value, handleChange }) => {
       value: "static-pixi-no-svg",
     },
     {
-      name: "React Pixi + SVG (static)",
+      name: "React Pixi (static)",
       value: "static-pixi-with-svg",
     },
     {
-      name: "React Pixi + SVG (animated)",
+      name: "React Pixi (animated)",
       value: "animated-react-pixi-with-svg",
     },
     {
-      name: "Pixi + SVG (animated sprites)",
+      name: "Pixi (animated)",
       value: "animated-pixi-with-svg",
     },
     {
-      name: "Pixi + SVG (tooltip)",
+      name: "Pixi (tooltip)",
       value: "animated-pixi-with-tooltip",
     },
     {
-      name: "Pixi + SVG (brush)",
+      name: "Pixi (tooltip/brush)",
       value: "animated-pixi-with-tooltip-and-brush",
     },
   ];
 
   return (
     <FormControl>
-      <FormLabel id="chart-version-selector">Chart version</FormLabel>
+      {/* <FormLabel id="chart-version-selector">Chart version</FormLabel> */}
       <RadioGroup
         row
         aria-labelledby="chart-version-selector"
@@ -52,6 +52,7 @@ const ChartVersionSelector = ({ value, handleChange }) => {
             value={option.value}
             control={<Radio />}
             label={option.name}
+            sx={{ margin: 0 }}
           />
         ))}
       </RadioGroup>
